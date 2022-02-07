@@ -9,19 +9,19 @@
             display: inline-block;
         }
 
-        .btn{
+        .btn {
             margin: 5px;
         }
 
-        .btn-del{
+        .btn-del {
             background-color: lightcoral;
         }
 
-        .btn-add{
+        .btn-add {
             background-color: darkseagreen;
         }
 
-        .btn-edit{
+        .btn-edit {
             background-color: lightyellow;
         }
 
@@ -75,8 +75,10 @@
             <th>Доступные действия</th>
         </tr>
         <tr th:each="book: ${books}" onclick="bookRowClick(this)">
-            <td><img th:src="${'/files/'+book.modifiedIconName}" th:width="100">
-                <a th:href="@{|preview?id=${book.id}&modifiedName=${book.modifiedFileName}&name=${book.fileName}}"
+            <td><img
+                    th:src="@{|/${book.getFilesPath()}/${book.modifiedIconName}|}"
+                    th:width="100">
+                <a th:href="@{|preview?id=${book.id}&modifiedName=${book.modifiedFileName}&name=${book.fileName}|}"
                    th:target="_blank"/>
             </td>
             <td th:text="${book.title}"></td>

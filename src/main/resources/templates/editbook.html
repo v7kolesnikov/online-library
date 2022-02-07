@@ -16,25 +16,25 @@
     </div>
     <br>
     <button type="button">
-        <a th:href="@{|preview?id=${book.id}&modifiedName=*{modifiedFileName}&name=*{fileName}}"
+        <a th:href="@{|preview?id=${book.id}&modifiedName=*{modifiedFileName}&name=*{fileName}|}"
            th:target="_blank">Открыть для просмотра
         </a>
     </button>
     <br>
     <div>Скачать книгу: <a
-            th:href="@{|downloadfile?id=${book.id}&modifiedName=*{modifiedFileName}&name=*{fileName}}"><span
+            th:href="@{|downloadfile?id=${book.id}&modifiedName=*{modifiedFileName}&name=*{fileName}|}"><span
             th:text="*{fileName}"></span></a>
     </div>
     <br>
     <div><label>Заменить книгу: <input type="file" name="file"></label></div>
     <br>
     <div>Скачать обложку: <a
-            th:href="@{|downloadicon?id=${book.id}&modifiedName=*{modifiedIconName}&name=*{iconName}}"><span
+            th:href="@{|downloadicon?id=${book.id}&modifiedName=*{modifiedIconName}&name=*{iconName}|}"><span
             th:text="*{iconName}"></span></a>
     </div>
     <div><label> Заменить обложку <input type="file" name="icon"></label></div>
     <br>
-    <img th:src="${'/files/'+book.modifiedIconName}" th:width="100">
+    <img th:src="@{|/${book.getFilesPath()}/${book.modifiedIconName}|}" th:width="100">
     <br>
     <input type="submit" value="Сохранить изменения"/>
 </form>

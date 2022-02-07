@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+import static com.home.onlinelibrary.utils.Constants.FILES_PATH;
+
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "books")
@@ -172,5 +174,9 @@ public class Book implements Serializable {
 
     public void setModifiedIconName(String modifiedIconName) {
         this.modifiedIconName = modifiedIconName;
+    }
+
+    public static String getFilesPath(){
+        return FILES_PATH;
     }
 }

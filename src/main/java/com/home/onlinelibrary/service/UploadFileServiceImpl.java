@@ -1,6 +1,5 @@
 package com.home.onlinelibrary.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
@@ -8,8 +7,11 @@ import java.io.File;
 
 @Service
 public class UploadFileServiceImpl implements UploadFileService {
-    @Autowired
-    ServletContext context;
+   private final ServletContext context;
+
+    public UploadFileServiceImpl(ServletContext context) {
+        this.context = context;
+    }
 
     @Override
     public File getFilePath(String modifiedFileName, String path) {
