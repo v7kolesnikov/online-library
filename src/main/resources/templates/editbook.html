@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование книги</title>
+</head>
+<body>
+<form th:action="@{/editbook}" th:object="${book}" method="post" enctype="multipart/form-data">
+    <input id="id" name="id" type="hidden" th:value="*{id}"/>
+    <div><label> Название: <input type="text" name="title" th:value="*{title}"/> </label></div>
+    <br>
+    <div><label> Автор: <input type="text" name="author" th:value="*{author}"/> </label></div>
+    <br>
+    <div><label> Жанр: <input type="text" name="genre" th:value="*{genre}"/></label>
+    </div>
+    <br>
+    <button type="button">
+        <a th:href="@{|preview?id=${book.id}&modifiedName=*{modifiedFileName}&name=*{fileName}}"
+           th:target="_blank">Открыть для просмотра
+        </a>
+    </button>
+    <br>
+    <div>Скачать книгу: <a
+            th:href="@{|downloadfile?id=${book.id}&modifiedName=*{modifiedFileName}&name=*{fileName}}"><span
+            th:text="*{fileName}"></span></a>
+    </div>
+    <br>
+    <div><label>Заменить книгу: <input type="file" name="file"></label></div>
+    <br>
+    <div>Скачать обложку: <a
+            th:href="@{|downloadicon?id=${book.id}&modifiedName=*{modifiedIconName}&name=*{iconName}}"><span
+            th:text="*{iconName}"></span></a>
+    </div>
+    <div><label> Заменить обложку <input type="file" name="icon"></label></div>
+    <br>
+    <img th:src="${'/files/'+book.modifiedIconName}" th:width="100">
+    <br>
+    <input type="submit" value="Сохранить изменения"/>
+</form>
+
+<p><a th:href="@{/}">Вернуться на главную страницу без сохранения</a></p>
+</body>
+</html>

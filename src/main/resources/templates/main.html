@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Онлайн-библиотека</title>
+    <style>
+        .inline {
+            display: inline-block;
+        }
+
+        .btn{
+            margin: 5px;
+        }
+
+        .btn-del{
+            background-color: lightcoral;
+        }
+
+        .btn-add{
+            background-color: darkseagreen;
+        }
+
+        .btn-edit{
+            background-color: lightyellow;
+        }
+
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+        table th {
+            border: 2px solid black;
+            padding: 5px;
+        }
+
+        table td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+    <script>
+        function bookRowClick(row) {
+            row.querySelector("a").click();
+        }
+    </script>
+</head>
+<body>
+<h3 class="inline" th:inline="text">Текущий читатель: [[${#httpServletRequest.remoteUser}]]</h3>
+<form class="inline btn" th:action="@{/logout}" method="post">
+    <input type="submit" value="Выйти"/>
+</form>
+<form th:action="@{/newbook}">
+    <input class="btn-add" type="submit" value="Добавить книгу"/>
+</form>
+<p>
+<form th:action="@{/filter}" method="post">
+    <input type="text" name="filter">
+    <button type="submit">Найти</button>
+</form>
+</p>
+<h2>Список книг</h2>
+<div th:unless="${#lists.isEmpty(books)}">
+    <table>
+        <tr>
+            <th>Обложка</th>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Жанр</th>
+            <th>Добавлено читателем</th>
+            <th>Дата создания</th>
+            <th>Изменено читателем</th>
+            <th>Дата последнего изменения</th>
+            <th>Доступные действия</th>
+        </tr>
+        <tr th:each="book: ${books}" onclick="bookRowClick(this)">
+            <td><img th:src="${'/files/'+book.modifiedIconName}" th:width="100">
+                <a th:href="@{|preview?id=${book.id}&modifiedName=${book.modifiedFileName}&name=${book.fileName}}"
+                   th:target="_blank"/>
+            </td>
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.genre}"></td>
+            <td th:text="${book.getCreator().username}"></td>
+            <td th:text="${#dates.format(book.createdDate, 'd MMM yyyy HH:mm:ss')}"></td>
+            <td th:text="${book.getEditor().username}"></td>
+            <td th:text="${#dates.format(book.modifiedDate, 'd MMM yyyy HH:mm:ss')}"></td>
+            <form th:method="post" th:action="@{/editBook}" th:object="${book}">
+                <input id="id" name="id" type="hidden" th:value="*{id}"/>
+                <input id="modifiedIconName" name="modifiedIconName" type="hidden" th:value="*{modifiedIconName}"/>
+                <input id="modifiedFileName" name="modifiedFileName" type="hidden" th:value="*{modifiedFileName}"/>
+                <td onclick=event.stopPropagation()>
+                    <input class="btn btn-edit" type="submit" name="edit" value="Редактировать"/>
+                    <input class="btn btn-del" type="submit" name="delete" value="Удалить"/>
+                </td>
+            </form>
+            </form>
+        </tr>
+    </table>
+
+</div>
+</body>
+</html>
